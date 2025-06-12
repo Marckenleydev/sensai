@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  # Backend server instances
+  server1:
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    container_name: server1
+    expose:
+      - "8008"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/server/node_modules
+      - /app/server/dist  # Exclude dist directory from volume mount
+    environment:
+      - NODE_ENV=production
+      - SERVER_ID=server1
+      - PORT=8008
+    user: "1000:1000"  # Use host user ID to avoid permission issues
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8008/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  server2:
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    container_name: server2
+    expose:
+      - "8008"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/server/node_modules
+      - /app/server/dist  # Exclude dist directory from volume mount
+    environment:
+      - NODE_ENV=production
+      - SERVER_ID=server2
+      - PORT=8008
+    user: "1000:1000"  # Use host user ID to avoid permission issues
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8008/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  server3:
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    container_name: server3
+    expose:
+      - "8008"
+    restart: always
+    volumes:
+      - .:/app
+      - /app/server/node_modules
+      - /app/server/dist  # Exclude dist directory from volume mount
+    environment:
+      - NODE_ENV=production
+      - SERVER_ID=server3
+      - PORT=8008
+    user: "1000:1000"  # Use host user ID to avoid permission issues
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:8008/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx load balancer
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"  # For future SSL support
+    restart: always
+    depends_on:
+      - server1
+      - server2
+      - server3
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
+      - ./static:/usr/share/nginx/html/static:ro  # Static files
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+ 
+
+# Volumes for data persistence
+volumes:
+
+  nginx_logs:
+    driver: local

@@ -1,0 +1,24 @@
+2025/06/10 22:42:22 [emerg] 1#1: host not found in upstream "server2:8008" in /etc/nginx/nginx.conf:34
+2025/06/10 22:42:27 [emerg] 1#1: host not found in upstream "server2:8008" in /etc/nginx/nginx.conf:34
+2025/06/10 22:42:30 [emerg] 1#1: host not found in upstream "server2:8008" in /etc/nginx/nginx.conf:34
+2025/06/10 22:42:33 [emerg] 1#1: host not found in upstream "server3:8008" in /etc/nginx/nginx.conf:35
+2025/06/10 22:42:36 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:42:39 [emerg] 1#1: host not found in upstream "server2:8008" in /etc/nginx/nginx.conf:34
+2025/06/10 22:42:43 [emerg] 1#1: host not found in upstream "server2:8008" in /etc/nginx/nginx.conf:34
+2025/06/10 22:42:50 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:43:03 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:43:29 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:44:21 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:45:21 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:46:22 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:47:22 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:48:23 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:49:24 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:50:25 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:51:26 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:52:27 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 22:53:29 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/10 23:11:40 [emerg] 1#1: host not found in upstream "server1:8008" in /etc/nginx/nginx.conf:33
+2025/06/11 10:31:32 [error] 30#30: *22 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 192.168.65.1, server: , request: "GET / HTTP/1.1", host: "localhost"
+2025/06/11 10:31:32 [error] 30#30: *22 open() "/etc/nginx/html/favicon.ico" failed (2: No such file or directory), client: 192.168.65.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2025/06/11 10:46:44 [error] 32#32: *10 "/etc/nginx/html/index.html" is not found (2: No such file or directory), client: 192.168.65.1, server: , request: "GET /?__clerk_handshake=eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDExMUFBQSIsImtpZCI6Imluc18ydlJXZklzRlNQUUdrNGNQZzlKWUhsTndZNVUiLCJ0eXAiOiJKV1QifQ.eyJoYW5kc2hha2UiOlsiX19jbGllbnRfdWF0PTsgUGF0aD0vOyBFeHBpcmVzPVRodSwgMDEgSmFuIDE5NzAgMDA6MDA6MDAgR01UOyBTYW1lU2l0ZT1MYXgiLCJfX2NsaWVudF91YXQ9MTc0OTU1ODg4ODsgUGF0aD0vOyBEb21haW49bG9jYWxob3N0OyBNYXgtQWdlPTMxNTM2MDAwMDsgU2FtZVNpdGU9TGF4IiwiX19jbGllbnRfdWF0X0FkRDYyMmhsPTE3NDk1NTg4ODg7IFBhdGg9LzsgRG9tYWluPWxvY2FsaG9zdDsgTWF4LUFnZT0zMTUzNjAwMDA7IFNhbWVTaXRlPUxheCIsIl9fc2Vzc2lvbl9BZEQ2MjJobD1leUpoYkdjaU9pSlNVekkxTmlJc0ltTmhkQ0k2SW1Oc1gwSTNaRFJRUkRFeE1VRkJRU0lzSW10cFpDSTZJbWx1YzE4eWRsSlhaa2x6UmxOUVVVZHJOR05RWnpsS1dVaHNUbmRaTlZVaUxDSjBlWEFpT2lKS1YxUWlmUS5leUpoZW5BaU9pSm9kSFJ3T2k4dmJHOWpZV3hvYjNOMElpd2laWGh3SWpveE56UTVOak00T0RZMExDSm1kbUVpT2xzeE16TXhMQzB4WFN3aWFXRjBJam94TnpRNU5qTTRPREEwTENKcGMzTWlPaUpvZEhSd2N6b3ZMMk5zYjNOcGJtY3RlV1YwYVMwek15NWpiR1Z5YXk1aFkyTnZkVzUwY3k1a1pYWWlMQ0p1WW1ZaU9qRTNORGsyTXpnM09UUXNJbk5wWkNJNkluTmxjM05mTW5sS2FUUnlUMVJrUlVWVFduVkVkell3YVhZMFUydExTR2R4SWl3aWMzVmlJam9pZFhObGNsOHllVGhHVm1VMFpERTVPWFpQV1dWNldqbGhPRmxtZGxCNlMyOGlmUS51ZmF5SFRzUmxLcUxhQU5FaDlhbTJUNy14eWJrX2JiRzdJeDh6cmVLZ3p2SF94YzRmRU8zOThmWTBSbHB5MHVMNDFKNUZ0dGtSWkFROFlrdkhtSGM1aDRlSDN1N3JMdjVtNXVtZkN5UXFmTnhpdjAtY1dQUmpWMFpFY1MtMGh2d0stXzVzeklYd3hpbk0ybkhWY2lmakRLanRHMEhVSll6cTY0TlR1VURiejd1NXZuNlV1VWpVeVRJN2VlaHVaT1E4MHRtekZ2NWNxc3NWaGs0eHh3M05sQ1hHaldlRzBfRTV0MGRrdUxsVFdwaGpZMkh0WjVWcFFBMmdmek9qRnpkY3NramVPaVVDODNoNTdJYktIS0FFbU1RVERNRkdpUjdrLVllYjEyVDMyNlNqWjJJanR2dHZKM3gxRF9PYzRzVURQZmN1ai00cDUwMGZWNjdDeHBKdVE7IFBhdGg9LzsgRXhwaXJlcz1UaHUsIDExIEp1biAyMDI2IDEwOjQ2OjQ0IEdNVDsgU2FtZVNpdGU9TGF4IiwiX19yZWZyZXNoX0FkRDYyMmhsPUxBN0dIQVRXME41azA5cHllWTRjOyBQYXRoPS87IEV4cGlyZXM9VGh1LCAxMSBKdW4gMjAyNiAxMDo0Njo0NCBHTVQ7IEh0dHBPbmx5OyBTYW1lU2l0ZT1MYXgiLCJfX2NsZXJrX2RiX2p3dD1kdmJfMnk4Q3JPMG9VRUZ4VmZTaUhEYk1kYVNERVhIOyBQYXRoPS87IEV4cGlyZXM9VGh1LCAxMSBKd
