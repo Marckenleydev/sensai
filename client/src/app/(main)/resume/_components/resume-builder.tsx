@@ -41,7 +41,7 @@ export default function ResumeBuilder({ initialContent }: ResumeBuilderProps) {
     watch,
     formState: { errors },
   } = useForm<ResumeFormData>({
-    resolver: zodResolver(resumeSchema),
+    resolver: zodResolver(resumeSchema) as any,
     defaultValues: {
       contactInfo: {},
       summary: "",

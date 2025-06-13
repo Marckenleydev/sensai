@@ -35,6 +35,8 @@ interface OnboardingFormProps {
   industries: Industry[];
 }
 
+
+
 const OnboardingForm: React.FC<OnboardingFormProps> = ({ industries }) => {
   const router = useRouter();
   const [selectedIndustry, setSelectedIndustry] = useState<Industry | null>(null);
@@ -53,7 +55,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ industries }) => {
     setValue,
     watch,
   } = useForm<FormData>({
-    resolver: zodResolver(onboardingSchema),
+    resolver: zodResolver(onboardingSchema) as any,
   });
 
   const onSubmit = async (values: FormData): Promise<void> => {

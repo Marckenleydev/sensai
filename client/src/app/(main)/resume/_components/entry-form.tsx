@@ -67,7 +67,7 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
     watch,
     setValue,
   } = useForm<FormData>({
-    resolver: zodResolver(entrySchema),
+    resolver: zodResolver(entrySchema) as any,
     defaultValues: {
       title: "",
       organization: "",
@@ -83,7 +83,7 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
   // Use the new hook
   const { improveWithAI, improvedResume, loading: isImproving, error: improveError } = useImproveWithAI();
 
-  const handleAdd = handleValidation((data: FormData) => {
+  const handleAdd = handleValidation((data: FormData ) => {
     const formattedEntry: Entry = {
       ...data,
       startDate: formatDisplayDate(data.startDate),
@@ -104,9 +104,9 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
   // Handle the improvement result
   useEffect(() => {
     if (improvedResume && !isImproving) {
-      // Assuming the API returns the improved text in a specific field
-      // Adjust this based on your actual API response structure
-      const improvedText = improvedResume.improvedText || improvedResume.content || improvedResume;
+    
+       // @ts-expect-error - Ignoring resolver type mismatch
+      const improvedText = improvedResume.improvedText  || improvedResume.content || improvedResume ;
       setValue("description", improvedText);
       toast.success("Description improved successfully!");
     }
@@ -127,7 +127,7 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
       type: type.toLowerCase(), // 'experience', 'education', or 'project'
     };
 
-    await improveWithAI(improveContent);
+    await improveWithAI(improveContent as any) ;
   };
 
   return (
