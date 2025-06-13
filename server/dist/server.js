@@ -31,8 +31,8 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)());
 // Routes
 app.use("/user", user_1.default);
-app.get("/", (req, res) => {
-    res.send("Hello welcome to the foodOrder");
+app.get("/health", (_req, res) => {
+    res.status(200).send("healthy");
 });
 app.use("/api/inngest", (0, express_3.serve)({
     client: client_1.inngest,

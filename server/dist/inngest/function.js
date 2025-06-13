@@ -17,7 +17,7 @@ const genAI = new generative_ai_1.GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const prisma = new client_1.PrismaClient();
 exports.generateIndustryInsights = client_2.inngest.createFunction({ id: "Generate Industry Insights" }, { cron: "0 0 * * 0" }, // Run every Sunday at midnight
-(_a) => __awaiter(void 0, [_a], void 0, function* ({ event, step }) {
+(_a) => __awaiter(void 0, [_a], void 0, function* ({ step }) {
     var _b, _c;
     const industries = yield step.run("Fetch industries", () => __awaiter(void 0, void 0, void 0, function* () {
         return yield prisma.industryInsight.findMany({

@@ -61,7 +61,10 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
             res.status(401).json({ message: "User not authenticated" });
             return;
         }
-        const user = yield prisma.user.findUnique({ where: { clerkUserId: clerkUser.id }, include: { industryInsight: true } });
+        const user = yield prisma.user.findUnique({
+            where: { clerkUserId: clerkUser.id },
+            include: { industryInsight: true }
+        });
         if (!user) {
             res.status(404).json({ message: "User not found" });
             return;
@@ -74,11 +77,11 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
             });
             if (!industryInsight) {
                 const insights = yield (0, industryInsight_1.generateAIInsights)(industry);
-                industryInsight = yield prisma.industryInsight.create({
+                industryInsight = yield tx.industryInsight.create({
                     data: Object.assign(Object.assign({ industry: industry }, insights), { demandLevel: insights.demandLevel.toUpperCase(), marketOutlook: insights.marketOutlook.toUpperCase(), nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) })
                 });
             }
-            const updateUser = yield tx.user.update({
+            const updatedUser = yield tx.user.update({
                 where: {
                     id: user.id
                 },
@@ -89,9 +92,9 @@ const updateUserProfile = (req, res) => __awaiter(void 0, void 0, void 0, functi
                     skills: skills,
                 }
             });
-            return { updateUser, industryInsight };
+            return { updatedUser, industryInsight };
         }), { timeout: 10000 });
-        res.status(200).json({ message: "User  profile update Successfully" });
+        res.status(200).json({ message: "User profile update Successfully" });
     }
     catch (error) {
         console.error("Error updating user profile:", error);

@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from './ui/button'
-import { UserProfile } from './UserProfile'
+//import { UserProfile } from './UserProfile'
 
 const Header = () => {
   return (

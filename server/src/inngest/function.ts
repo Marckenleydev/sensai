@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export const generateIndustryInsights = inngest.createFunction(
   { id: "Generate Industry Insights" },
   { cron: "0 0 * * 0" }, // Run every Sunday at midnight
-  async ({ event, step }) => {
+  async ({ step }: { step: any }) => {
     const industries = await step.run("Fetch industries", async () => {
       return await prisma.industryInsight.findMany({
         select: { industry: true },
@@ -35,7 +35,7 @@ export const generateIndustryInsights = inngest.createFunction(
         `;
       const res = await step.ai.wrap(
         "gemini",
-        async (p) => {
+        async (p:string) => {
           return await model.generateContent(p);
         },
         prompt
@@ -46,7 +46,7 @@ export const generateIndustryInsights = inngest.createFunction(
       }
       const candidate = res.response.candidates[0];
       const textPart = candidate.content?.parts?.find(
-        (part) => "text" in part && part.text
+        (part:any) => "text" in part && part.text
       );
       if (!textPart || !("text" in textPart)) {
         console.error(`No text content returned for industry: ${industry}`);
