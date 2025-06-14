@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, parse } from "date-fns";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,17 +19,9 @@ import { entrySchema } from "@/app/lib/schema";
 import { Sparkles, PlusCircle, X, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useImproveWithAI } from "@/app/hook/useCheckUser";
- // Adjust import path as needed
 
-// TypeScript interfaces
-interface Entry {
-  title: string;
-  organization: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  current: boolean;
-}
+// Import the Entry type from your types file instead of defining locally
+import { Entry } from "@/lib/types";
 
 interface EntryFormProps {
   type: string;
@@ -36,17 +29,11 @@ interface EntryFormProps {
   onChange: (entries: Entry[]) => void;
 }
 
-interface FormData {
-  title: string;
-  organization: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  current: boolean;
-}
+// Define both input and output types explicitly
+type FormInput = z.input<typeof entrySchema>;
 
 interface ImproveContent {
-  current: string;
+  content: string;
   type: string;
 }
 
@@ -66,8 +53,8 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
     reset,
     watch,
     setValue,
-  } = useForm<FormData>({
-    resolver: zodResolver(entrySchema) as any,
+  } = useForm<FormInput>({
+    resolver: zodResolver(entrySchema),
     defaultValues: {
       title: "",
       organization: "",
@@ -83,11 +70,12 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
   // Use the new hook
   const { improveWithAI, improvedResume, loading: isImproving, error: improveError } = useImproveWithAI();
 
-  const handleAdd = handleValidation((data: FormData ) => {
+  const handleAdd = handleValidation((data: FormInput) => {
     const formattedEntry: Entry = {
       ...data,
+      current: data.current ?? false, // Ensure current is always boolean
       startDate: formatDisplayDate(data.startDate),
-      endDate: data.current ? "" : formatDisplayDate(data.endDate),
+      endDate: (data.current ?? false) ? "" : formatDisplayDate(data.endDate || ""),
     };
 
     onChange([...entries, formattedEntry]);
@@ -104,9 +92,7 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
   // Handle the improvement result
   useEffect(() => {
     if (improvedResume && !isImproving) {
-    
-       // @ts-expect-error - Ignoring resolver type mismatch
-      const improvedText = improvedResume.improvedText  || improvedResume.content || improvedResume ;
+      const improvedText = improvedResume;
       setValue("description", improvedText);
       toast.success("Description improved successfully!");
     }
@@ -123,11 +109,11 @@ export function EntryForm({ type, entries, onChange }: EntryFormProps) {
     }
 
     const improveContent: ImproveContent = {
-      current: description,
-      type: type.toLowerCase(), // 'experience', 'education', or 'project'
+      content: description,
+      type: type.toLowerCase(),
     };
 
-    await improveWithAI(improveContent as any) ;
+    await improveWithAI(improveContent);
   };
 
   return (

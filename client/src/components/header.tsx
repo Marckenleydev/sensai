@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from './ui/button'
-//import { UserProfile } from './UserProfile'
+import { UserProfile } from './UserProfile'
 
 const Header = () => {
   return (
@@ -35,11 +35,11 @@ const Header = () => {
         
         <div className="flex items-center space-x-2 md:space-x-4">
           <SignedIn>
-            {/* Display user info from backend 
+            {/* Display user info from backend  */}
             <div className="hidden lg:block">
               <UserProfile />
             </div>
-            */}
+           
 
             <Link href="/dashboard">
               <Button

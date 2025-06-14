@@ -29,13 +29,15 @@ import {
 
 import { onboardingSchema } from "@/app/lib/schema";
 import { useUpdateProfile } from "@/app/hook/useCheckUser";
-import { FormData, Industry } from "@/lib/types";
+import { Industry } from "@/lib/types";
+import { z } from "zod";
+
+// This represents the transformed output from the schema (what onSubmit receives)
+type OnboardingFormData = z.infer<typeof onboardingSchema>;
 
 interface OnboardingFormProps {
   industries: Industry[];
 }
-
-
 
 const OnboardingForm: React.FC<OnboardingFormProps> = ({ industries }) => {
   const router = useRouter();
@@ -54,37 +56,25 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ industries }) => {
     formState: { errors },
     setValue,
     watch,
-  } = useForm<FormData>({
-    resolver: zodResolver(onboardingSchema) as any,
+  } = useForm({
+    resolver: zodResolver(onboardingSchema),
   });
 
-  const onSubmit = async (values: FormData): Promise<void> => {
+  const onSubmit = async (values: OnboardingFormData): Promise<void> => {
     try {
-      // Debug: Check what we're actually getting
-      console.log('values.skills:', values.skills, typeof values.skills);
+      console.log('Transformed values:', values);
+      // values.experience is now a number (transformed by schema)
+      // values.skills is now string[] | undefined (transformed by schema)
       
       const formattedIndustry = `${values.industry}-${values.subIndustry
         .toLowerCase()
         .replace(/ /g, "-")}`;
 
-      // Convert skills to array - handle both string and array cases
-      let skillsArray: string[];
-      if (typeof values.skills === 'string') {
-        skillsArray = values.skills
-          .split(',')
-          .map(skill => skill.trim())
-          .filter(skill => skill.length > 0);
-      } else if (Array.isArray(values.skills)) {
-       
-        skillsArray = values.skills;
-      } else {
-        skillsArray = [];
-      }
-
       const result = await updateUserFn({
         ...values,
         industry: formattedIndustry,
-        skills: skillsArray,
+        bio: values.bio || "", // Provide empty string if bio is undefined
+        skills: values.skills || [], // Provide empty array if skills is undefined
       });
 
       // Handle immediate response

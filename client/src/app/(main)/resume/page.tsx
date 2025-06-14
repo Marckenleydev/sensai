@@ -33,7 +33,7 @@ export default function ResumePage() {
 
   return (
     <div className="container mx-auto py-6">
-      <ResumeBuilder initialContent={(myResume as any)?.content} />
+      <ResumeBuilder initialContent={myResume?.content } />
     </div>
   );
 }

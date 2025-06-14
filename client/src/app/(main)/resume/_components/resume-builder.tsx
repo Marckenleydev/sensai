@@ -19,10 +19,31 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { EntryForm } from "./entry-form";
 import { useUser } from "@clerk/nextjs";
-import { entriesToMarkdown } from "@/app/lib/helper";
 import { resumeSchema } from "@/app/lib/schema";
 import { useSaveResume } from "@/app/hook/useCheckUser";
-import { ResumeBuilderProps, ResumeFormData } from "@/lib/types";
+import { ResumeBuilderProps, ResumeFormData, Entry } from "@/lib/types";
+
+// Updated function to work with the imported Entry type
+export const entriesToMarkdown = (entries: Entry[], sectionTitle: string): string => {
+  if (!entries || entries.length === 0) return "";
+
+  const entriesMarkdown = entries
+    .map((entry) => {
+      const dateRange = entry.current === true
+        ? `${entry.startDate} - Present`
+        : entry.endDate 
+          ? `${entry.startDate} - ${entry.endDate}`
+          : entry.startDate; // Fallback to just start date if no end date
+
+      return `### ${entry.title} - ${entry.organization}
+**${dateRange}**
+
+${entry.description}`;
+    })
+    .join("\n\n");
+
+  return `## ${sectionTitle}\n\n${entriesMarkdown}`;
+};
 
 type ResumeMode = "preview" | "edit";
 type ActiveTab = "edit" | "preview";
@@ -41,7 +62,7 @@ export default function ResumeBuilder({ initialContent }: ResumeBuilderProps) {
     watch,
     formState: { errors },
   } = useForm<ResumeFormData>({
-    resolver: zodResolver(resumeSchema) as any,
+    resolver: zodResolver(resumeSchema),
     defaultValues: {
       contactInfo: {},
       summary: "",
@@ -58,7 +79,6 @@ export default function ResumeBuilder({ initialContent }: ResumeBuilderProps) {
   useEffect(() => {
     if (initialContent) setActiveTab("preview");
   }, [initialContent]);
-
 
   useEffect(() => {
     if (activeTab === "edit") {
@@ -98,62 +118,61 @@ export default function ResumeBuilder({ initialContent }: ResumeBuilderProps) {
       getContactMarkdown(),
       summary && `## Professional Summary\n\n${summary}`,
       skills && `## Skills\n\n${skills}`,
-      entriesToMarkdown(experience, "Work Experience"),
-      entriesToMarkdown(education, "Education"),
-      entriesToMarkdown(projects, "Projects"),
+      entriesToMarkdown(experience || [], "Work Experience"),
+      entriesToMarkdown(education || [], "Education"),
+      entriesToMarkdown(projects || [], "Projects"),
     ]
       .filter(Boolean)
       .join("\n\n");
   };
 
-const generatePDF = async (): Promise<void> => {
-  setIsGenerating(true);
-  try {
-    const html2pdf = (await import("html2pdf.js")).default;
+  const generatePDF = async (): Promise<void> => {
+    setIsGenerating(true);
+    try {
+      const html2pdf = (await import("html2pdf.js")).default;
 
-    const element = document.getElementById("resume-pdf");
-    if (!element) {
-      throw new Error("Resume element not found");
+      const element = document.getElementById("resume-pdf");
+      if (!element) {
+        throw new Error("Resume element not found");
+      }
+
+      const opt = {
+        margin: [15, 15],
+        filename: "resume.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+
+      await html2pdf().set(opt).from(element).save();
+      toast.success("PDF generated successfully!");
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast.error("Failed to generate PDF");
+    } finally {
+      setIsGenerating(false);
     }
+  };
 
-    const opt = {
-      margin: [15, 15],
-      filename: "resume.pdf",
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
+  const onSubmit = async (): Promise<void> => {
+    try {
+      const formattedContent = previewContent
+        .replace(/\n\s*\n\s*\n/g, '\n\n') // Clean up multiple newlines
+        .trim();
 
-    await html2pdf().set(opt).from(element).save();
-    toast.success("PDF generated successfully!");
-  } catch (error) {
-    console.error("PDF generation error:", error);
-    toast.error("Failed to generate PDF");
-  } finally {
-    setIsGenerating(false);
-  }
-};
-
-
- const onSubmit = async (): Promise<void> => {
-  try {
-    const formattedContent = previewContent
-      .replace(/\n\s*\n\s*\n/g, '\n\n') // Clean up multiple newlines
-      .trim();
-
-    console.log("Preview content:", previewContent);
-    console.log("Formatted content:", formattedContent);
-    
-    await saveResume({
-      content: formattedContent,
-      title: "My Resume",
-      updatedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error("Save error:", error);
-    toast.error("Failed to save resume");
-  }
-};
+      console.log("Preview content:", previewContent);
+      console.log("Formatted content:", formattedContent);
+      
+      await saveResume({
+        content: formattedContent,
+        title: "My Resume",
+        updatedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("Save error:", error);
+      toast.error("Failed to save resume");
+    }
+  };
 
   const handlePreviewContentChange = (value?: string): void => {
     setPreviewContent(value || "");
@@ -319,7 +338,7 @@ const generatePDF = async (): Promise<void> => {
                 render={({ field }) => (
                   <EntryForm
                     type="Experience"
-                    entries={field.value}
+                    entries={field.value || []}
                     onChange={field.onChange}
                   />
                 )}
@@ -340,7 +359,7 @@ const generatePDF = async (): Promise<void> => {
                 render={({ field }) => (
                   <EntryForm
                     type="Education"
-                    entries={field.value}
+                    entries={field.value || []}
                     onChange={field.onChange}
                   />
                 )}
@@ -361,7 +380,7 @@ const generatePDF = async (): Promise<void> => {
                 render={({ field }) => (
                   <EntryForm
                     type="Project"
-                    entries={field.value}
+                    entries={field.value || []}
                     onChange={field.onChange}
                   />
                 )}

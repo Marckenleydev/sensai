@@ -21,8 +21,8 @@ export const UserProfile = () => {
   }
 
   if (!dbUser) {
-    return <div>No user data</div>;
-  }
+    return <div></div>;
+  } 
 
   return (
     

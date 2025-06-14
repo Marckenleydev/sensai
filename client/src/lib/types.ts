@@ -126,7 +126,7 @@ export type ImproveContent={
 }
 
 export type ContactInfo ={
-  email?: string;
+  email: string;
   mobile?: string;
   linkedin?: string;
   twitter?: string;
@@ -136,9 +136,9 @@ export type Entry ={
   title: string;
   organization: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   description: string;
-  current: boolean;
+  current?: boolean;
 }
 
 export type ResumeFormData ={

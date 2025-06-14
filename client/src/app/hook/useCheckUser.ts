@@ -337,13 +337,20 @@ export const useSaveResume = () => {
 };
 
 // Hook for getting user's resume
+interface Resume {
+  content: string; 
+  id?: string;
+  
+}
+
 export const useGetMyResume = () => {
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [myResume, setMyResume] = useState(null);
+  // Properly type the myResume state
+  const [myResume, setMyResume] = useState<Resume | null>(null);
 
-  const getMyResume = async (): Promise<any> => {
+  const getMyResume = async (): Promise<Resume | null> => {
     setLoading(true);
     setError(null);
     try {
