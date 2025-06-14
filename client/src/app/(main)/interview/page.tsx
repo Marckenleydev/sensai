@@ -16,7 +16,7 @@ const InterviewPage = () => {
   // Fetch assessment data when component mounts
   useEffect(() => {
     getAssessment();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   // Handle loading state

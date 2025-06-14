@@ -15,7 +15,7 @@ function IndustryInsightPage() {
   useEffect(() => {
     checkOnboardingStatus();
     getIndustryInsight(); 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   useEffect(() => {
