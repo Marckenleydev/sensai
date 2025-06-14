@@ -22,22 +22,24 @@ export default function Home() {
             Powerful Features for Your Career Growth
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {features.map((feature, index) => (
-              <Card
-                key={index}
-                className="border-1 border-sky-200 hover:border-sky-600 transition-colors duration-300"
-              >
-                <CardContent className="pt-6 text-center flex flex-col items-center">
-                  <div className="flex flex-col items-center justify-center">
-                    {feature.icon}
-                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                    <p className="text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+           {features.map((feature, index) => {
+  const Icon = feature.icon;
+  return (
+    <Card
+      key={index}
+      className="border-1 border-sky-200 hover:border-sky-600 transition-colors duration-300"
+    >
+      <CardContent className="pt-6 text-center flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center">
+          <Icon className="w-10 h-10 mb-4 text-primary" />
+          <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+          <p className="text-muted-foreground">{feature.description}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+})}
+
           </div>
         </div>
       </section>
@@ -127,18 +129,19 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-            {howItWorks.map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center text-center space-y-4"
-              >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  {item.icon}
-                </div>
-                <h3 className="font-semibold text-xl">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
-              </div>
-            ))}
+            {howItWorks.map((item, index) => {
+  const Icon = item.icon;
+  return (
+    <div key={index} className="flex flex-col items-center text-center space-y-4">
+      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+        <Icon className="w-8 h-8 text-primary" />
+      </div>
+      <h3 className="font-semibold text-xl">{item.title}</h3>
+      <p className="text-muted-foreground">{item.description}</p>
+    </div>
+  );
+})}
+
           </div>
         </div>
       </section>
