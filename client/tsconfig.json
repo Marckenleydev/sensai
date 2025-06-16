@@ -24,6 +24,6 @@
     "typeRoots": ["src/types", "./node_modules/@types"]
   },
 
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/not-found.tsx", "src/app/(main)/resume/_components/resume-builder.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/not-found.tsx", "src/app/(main)/resume/_components/resume-builder.tsx", "src/middleware.ts"],
   "exclude": ["node_modules"]
 }
